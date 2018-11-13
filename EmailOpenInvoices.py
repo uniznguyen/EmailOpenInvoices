@@ -13,7 +13,8 @@ SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
         , ('THF','Tim Floyd','tfloyd@stingerchemicals.com;leigh@stingerchemicals.com')
         ,('GR','Greg','greg@stingerchemicals.com; bridget@stingerchemicals.com')
         , ('AV','Alton','alton@stingerchemicals.com'),('AR','Albert','albertr@stingerchemicals.com')
-		, ('LB','Larry Bale','larryb@stingerchemicals.com; noah@stingerchemicals.com')]
+		, ('LB','Larry Bale','larryb@stingerchemicals.com; noah@stingerchemicals.com')
+        , ('JD','Joey','joeyd@stingerchemicals.com')]
 
 CCEmails = 'warren@stingerchemicals.com; stu@stingerchemicals.com; fritz@stingerchemicals.com'
 

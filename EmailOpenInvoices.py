@@ -37,18 +37,18 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
     #filter the dataframe to pull data of each sales rep
     df2 = df[df.SalesRep == RepInitial]
 
-    #df2 = pd.pivot_table(df2, index = ['TxnType', 'Name', 'Date', 'RefNumber', 'PONumber', 'Terms', 'DueDate', 'Aging', 'SalesRep'], values = ['OpenBalance'], aggfunc = [np.sum], fill_value=0)
-
     #filename is the output Excel file of each sales rep
     var_output_Excel_file = RepFullName + ' Open Invoices ' + str(datetime.date.today()) + '.xlsx'
 
     #filepath is the path to the filename above,
-    #os.getcwd() is to get current dictory of Python script
-    var_output_Excel_path = os.getcwd() + '\\' + var_output_Excel_file
-
+    #BASE_DIR is to get current dictory of Python script
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    var_output_Excel_path = os.path.join(BASE_DIR,var_output_Excel_file)
+    
+  
 
     #initiate a write object using file name
-    writer = pd.ExcelWriter(var_output_Excel_file, engine='xlsxwriter')
+    writer = pd.ExcelWriter(var_output_Excel_path, engine='xlsxwriter')
 
     #write the dataframe df2 to excel
     df2.to_excel(writer, sheet_name= RepFullName, startcol=0, startrow=0, index=False, header=True)
@@ -85,7 +85,7 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
 
     #save output Excel file
     writer.save()
-
+    print (var_output_Excel_path)
 
 
 #this function is to email the output Excel file to each sales rep

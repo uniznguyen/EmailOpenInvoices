@@ -52,11 +52,12 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
 
     #write the dataframe df2 to excel
     df2.to_excel(writer, sheet_name= RepFullName, startcol=0, startrow=0, index=False, header=True)
+    html_string = df2.to_html(classes = 'table', index = False, na_rep = '')
 
     #using pivot table to subtotal open balance of each customers, create a new worksheet named 'Summary'
     df3 = pd.pivot_table(df2, index=['Name'], values=['OpenBalance'], aggfunc=[np.sum], fill_value=0)
     df3.to_excel(writer, sheet_name='Summary', startcol=0, startrow=0, index=True, header=True)
-
+    
     ## this function is to format the column Open balance
     workbook = writer.book
     worksheet1 = writer.sheets[RepFullName]
@@ -72,9 +73,9 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
     format.set_num_format('#,##0.00') ## format cell as number with commas
     format.set_bold() ## format bold for the cell
 
-
-    worksheet1.set_column('J:J', 18, format) # apply the format to column J, set column width = 18
-    worksheet1.set_column('A:J',customer_name_width) # set column A -> J width = longest customer's name
+    worksheet1.set_column('A:J',11)
+    worksheet1.set_column('J:J',15,format) # apply the format to column J, set column width = 18
+    worksheet1.set_column('B:B',customer_name_width) # set column A -> J width = longest customer's name
     worksheet1.freeze_panes(1, 0)  #freeze the top row
 
     worksheet2 = writer.sheets['Summary']
@@ -85,17 +86,19 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
 
     #save output Excel file
     writer.save()
-    print (var_output_Excel_path)
+    
 
 
 #this function is to email the output Excel file to each sales rep
     outlook = win32.Dispatch('outlook.application')
     mail = outlook.CreateItem(0)
-    mail.To = RepEmail  #change this line to change receipient's emails
-    mail.CC = CCEmails
+    #mail.To = RepEmail  #change this line to change receipient's emails
+    mail.To = 'accounting@stingerchemicals.com'  #change this line to change receipient's emails
+    #mail.CC = CCEmails
     mail.Subject = RepFullName + ' Open Invoice as of ' + str(datetime.date.today())
     mail.Body = 'Message body'
-    mail.HTMLBody = '<h2>This is Unpaid Invoices of ' + RepFullName + ' customers</h2>'
+    #mail.HTMLBody = '<h2>This is Unpaid Invoices of ' + RepFullName + ' customers</h2>'
+    mail.HTMLBody = html_string
 
     mail.Attachments.Add(var_output_Excel_path)
     mail.Send()

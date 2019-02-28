@@ -104,7 +104,7 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
     mail.Send()
     os.remove(var_output_Excel_path)       #delete the excel file after email sent
 
-#close ODBC connection.
+#close ODBC connection
 cn.close()
 
 

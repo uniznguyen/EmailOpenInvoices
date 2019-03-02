@@ -16,6 +16,10 @@ SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
 		, ('LB','Larry Bale','larryb@stingerchemicals.com; noah@stingerchemicals.com')
         , ('JD','Joey','joeyd@stingerchemicals.com')]
 
+
+# SalesReps = [('JD','Joey','joeyd@stingerchemicals.com')]
+
+
 CCEmails = 'warren@stingerchemicals.com; stu@stingerchemicals.com; fritz@stingerchemicals.com'
 
 cn = pyodbc.connect('DSN=QuickBooks Data;')
@@ -29,7 +33,14 @@ data = pd.read_sql(sql,cn)
 
 #convert data from above to Pandas Dataframe
 df = pd.DataFrame(data)
+ 
+df['Aging'] = df['Aging'].fillna('')
+#df['OpenBalance'] = df['OpenBalance'].map("{0:,.2f}".format)
 
+def highlightpastdue(s):
+    #attr = 'background-color: {}'.format(color)
+    if s.Aging:
+        return ['background-color: yellow']*10
 
 #loop through list of sales rep
 for RepInitial, RepFullName, RepEmail in SalesReps:
@@ -52,7 +63,12 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
 
     #write the dataframe df2 to excel
     df2.to_excel(writer, sheet_name= RepFullName, startcol=0, startrow=0, index=False, header=True)
-    html_string = df2.to_html(classes = 'table', index = False, na_rep = '')
+
+    html_string = (df2.style.format({'OpenBalance':"{0:,.2f}"}).apply(lambda x: ['background-color: lightblue' if x.Aging != '' else '' for i in x],axis = 1).set_properties(**{'text-align':'center'}).set_table_attributes('class="table"').hide_index().render())
+    bootstrap = '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">'
+    #html_string = bootstrap + html_string
+    # html_string = df2.to_html(classes = 'table', index = False, na_rep = '')
+    print (html_string)
 
     #using pivot table to subtotal open balance of each customers, create a new worksheet named 'Summary'
     df3 = pd.pivot_table(df2, index=['Name'], values=['OpenBalance'], aggfunc=[np.sum], fill_value=0)
@@ -98,7 +114,7 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
     mail.Subject = RepFullName + ' Open Invoice as of ' + str(datetime.date.today())
     mail.Body = 'Message body'
     #mail.HTMLBody = '<h2>This is Unpaid Invoices of ' + RepFullName + ' customers</h2>'
-    mail.HTMLBody = html_string
+    mail.HTMLBody = '<h2>This is Unpaid Invoices of ' + RepFullName + ' customers</h2>' + html_string
 
     mail.Attachments.Add(var_output_Excel_path)
     mail.Send()

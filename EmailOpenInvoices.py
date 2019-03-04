@@ -121,7 +121,7 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
     outlook = win32.Dispatch('outlook.application')
     mail = outlook.CreateItem(0)
     mail.To = RepEmail  #change this line to change receipient's emails
-    mail.To = 'accounting@stingerchemicals.com'  #change this line to change receipient's emails
+    #mail.To = 'accounting@stingerchemicals.com'  #change this line to change receipient's emails
     mail.CC = CCEmails
     mail.Subject = RepFullName + ' Open Invoice as of ' + str(datetime.date.today())
     mail.HTMLBody = '<h2>This is Unpaid Invoices of ' + RepFullName + ' customers</h2>' + html_string

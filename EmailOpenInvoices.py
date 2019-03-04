@@ -7,17 +7,17 @@ import win32com.client as win32
 
 
 
-# SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
-#         , ('JST', 'Takkie', 'takkie@stingerchemicals.com; andrea@stingerchemicals.com; jon@stingerchemicals.com')
-#         , ('FL','Frank','frank@stingerchemicals.com')
-#         , ('THF','Tim Floyd','tfloyd@stingerchemicals.com;leigh@stingerchemicals.com')
-#         ,('GR','Greg','greg@stingerchemicals.com; bridget@stingerchemicals.com')
-#         , ('AV','Alton','alton@stingerchemicals.com'),('AR','Albert','albertr@stingerchemicals.com')
-# 		, ('LB','Larry Bale','larryb@stingerchemicals.com; noah@stingerchemicals.com')
-#         , ('JD','Joey','joeyd@stingerchemicals.com')]
+SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
+        , ('JST', 'Takkie', 'takkie@stingerchemicals.com; andrea@stingerchemicals.com; jon@stingerchemicals.com')
+        , ('FL','Frank','frank@stingerchemicals.com')
+        , ('THF','Tim Floyd','tfloyd@stingerchemicals.com;leigh@stingerchemicals.com')
+        ,('GR','Greg','greg@stingerchemicals.com; bridget@stingerchemicals.com')
+        , ('AV','Alton','alton@stingerchemicals.com'),('AR','Albert','albertr@stingerchemicals.com')
+		, ('LB','Larry Bale','larryb@stingerchemicals.com; noah@stingerchemicals.com')
+        , ('JD','Joey','joeyd@stingerchemicals.com')]
 
 
-SalesReps = [('FL','Frank','frank@stingerchemicals.com')]
+# SalesReps = [('FL','Frank','frank@stingerchemicals.com')]
 
 
 CCEmails = 'warren@stingerchemicals.com; stu@stingerchemicals.com; fritz@stingerchemicals.com'
@@ -59,19 +59,16 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
     writer = pd.ExcelWriter(var_output_Excel_path, engine='xlsxwriter')
 
     #write the dataframe df2 to excel
-    df2.to_excel(writer, sheet_name= RepFullName, startcol=0, startrow=0, index=False, header=True)
-
-    # html_string = (df2.style.format({'OpenBalance':"{0:,.2f}"})\
-    #     .apply(lambda x: ['background-color: lightblue' if x.Aging != '' else '' for i in x],axis = 1)\
-    #     .set_properties(**{'text-align':'center'})\
-    #     .set_table_attributes('class="table"')\
-    #     .hide_index()\
-    #     .render())
+    df2.to_excel(writer, sheet_name= RepFullName, startcol=0, startrow=0, index=False, header=True)    
     
-    
+    #this function is to hightlight rows base on the aging column.
     def highlight_pastdueinvoice(s):        
-        if s.Aging != '':
-            return ['background-color: lightblue; font-weight: bold'] * s.size
+        if s.Aging != '' and s.Aging >= 30 and s.Aging < 60:
+            return ['background-color: #007bff; font-weight: bold; color: white'] * s.size
+        elif s.Aging != '' and s.Aging >= 60 and s.Aging < 90:
+            return ['background-color: #ffc107; font-weight: bold'] * s.size    
+        elif s.Aging != '' and s.Aging >= 90:
+            return ['background-color: #dc3545; font-weight: bold; color: white'] * s.size  
         else:
             return ['background-color: white'] * s.size
     
@@ -83,9 +80,7 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
         .render())
 
     bootstrap = '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">'
-    #html_string = bootstrap + html_string
-    #html_string = df2.to_html(classes = 'table', index = False, na_rep = '')
-    print (html_string)
+    html_string = bootstrap + html_string
 
     #using pivot table to subtotal open balance of each customers, create a new worksheet named 'Summary'
     df3 = pd.pivot_table(df2, index=['Name'], values=['OpenBalance'], aggfunc=[np.sum], fill_value=0)
@@ -125,12 +120,10 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
 #this function is to email the output Excel file to each sales rep
     outlook = win32.Dispatch('outlook.application')
     mail = outlook.CreateItem(0)
-    #mail.To = RepEmail  #change this line to change receipient's emails
+    mail.To = RepEmail  #change this line to change receipient's emails
     mail.To = 'accounting@stingerchemicals.com'  #change this line to change receipient's emails
-    #mail.CC = CCEmails
+    mail.CC = CCEmails
     mail.Subject = RepFullName + ' Open Invoice as of ' + str(datetime.date.today())
-    mail.Body = 'Message body'
-    #mail.HTMLBody = '<h2>This is Unpaid Invoices of ' + RepFullName + ' customers</h2>'
     mail.HTMLBody = '<h2>This is Unpaid Invoices of ' + RepFullName + ' customers</h2>' + html_string
 
     mail.Attachments.Add(var_output_Excel_path)

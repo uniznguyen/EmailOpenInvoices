@@ -8,10 +8,10 @@ import win32com.client as win32
 
 
 SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
-        , ('JST', 'Takkie', 'takkie@stingerchemicals.com; andrea@stingerchemicals.com; jon@stingerchemicals.com')
+        , ('JST', 'Takkie', 'takkie@stingerchemicals.com; jon@stingerchemicals.com')
         , ('FL','Frank','frank@stingerchemicals.com')
-        , ('THF','Tim Floyd','tfloyd@stingerchemicals.com;leigh@stingerchemicals.com')
-        ,('GR','Greg','greg@stingerchemicals.com; bridget@stingerchemicals.com')
+        , ('THF','Tim Floyd','tfloyd@stingerchemicals.com')
+        ,('GR','Greg','greg@stingerchemicals.com')
         , ('AV','Alton','alton@stingerchemicals.com'),('AR','Albert','albertr@stingerchemicals.com')
 		, ('LB','Larry Bale','larryb@stingerchemicals.com; noah@stingerchemicals.com')
         , ('JD','Joey','joeyd@stingerchemicals.com')]
@@ -20,7 +20,9 @@ SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
 # SalesReps = [('FL','Frank','frank@stingerchemicals.com')]
 
 
-CCEmails = 'warren@stingerchemicals.com; stu@stingerchemicals.com; fritz@stingerchemicals.com'
+CCEmails = 'warren@stingerchemicals.com; stu@stingerchemicals.com; fritz@stingerchemicals.com;\
+    leigh@stingerchemicals.com; bridget@stingerchemicals.com; andrea@stingerchemicals.com\
+    kimberly@stingerchemicals.com; yvonne@stingerchemicals.com'
 
 cn = pyodbc.connect('DSN=QuickBooks Data;')
 

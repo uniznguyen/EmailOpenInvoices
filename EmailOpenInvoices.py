@@ -64,13 +64,18 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
     df2.to_excel(writer, sheet_name= RepFullName, startcol=0, startrow=0, index=False, header=True)    
     
     #this function is to hightlight rows base on the aging column.
+
+    BLUE_STYLE = "background-color: DodgerBlue; font-weight: bold; color: white"
+    ORANGE_STYLE = "background-color: Orange; font-weight: bold"
+    RED_STYLE = "background-color: Red; font-weight: bold; color: white"
+    
     def highlight_pastdueinvoice(s):        
         if s.Aging != '' and s.Aging >= 30 and s.Aging < 60:
-            return ['background-color: #007bff; font-weight: bold; color: white'] * s.size
+            return [BLUE_STYLE] * s.size
         elif s.Aging != '' and s.Aging >= 60 and s.Aging < 90:
-            return ['background-color: #ffc107; font-weight: bold'] * s.size    
+            return [ORANGE_STYLE] * s.size   
         elif s.Aging != '' and s.Aging >= 90:
-            return ['background-color: #dc3545; font-weight: bold; color: white'] * s.size  
+            return [RED_STYLE] * s.size  
         else:
             return ['background-color: white'] * s.size
     
@@ -81,7 +86,11 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
         .hide_index()\
         .render())
 
-    bootstrap = '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">'
+    bootstrap = f'<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"\
+    <h2>Color code</h2>\
+    <p><span style = "{BLUE_STYLE}"> Blue: this invoice is more than 30 days past due. </span><br>\
+    <span style = "{ORANGE_STYLE}"> Orange: this invoice is more than 60 days past due. </span><br>\
+    <span style = "{RED_STYLE}"> Red: this invoice is more than 90 days past due. </span></p>'
     html_string = bootstrap + html_string
 
     #using pivot table to subtotal open balance of each customers, create a new worksheet named 'Summary'
@@ -122,11 +131,11 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
 #this function is to email the output Excel file to each sales rep
     outlook = win32.Dispatch('outlook.application')
     mail = outlook.CreateItem(0)
-    mail.To = RepEmail  #change this line to change receipient's emails
-    #mail.To = 'accounting@stingerchemicals.com'  #change this line to change receipient's emails
-    mail.CC = CCEmails
+    #mail.To = RepEmail  #change this line to change receipient's emails
+    mail.To = 'accounting@stingerchemicals.com'  #change this line to change receipient's emails
+    #mail.CC = CCEmails
     mail.Subject = RepFullName + ' Open Invoice as of ' + str(datetime.date.today())
-    mail.HTMLBody = '<h2>This is Unpaid Invoices of ' + RepFullName + ' customers</h2>' + html_string
+    mail.HTMLBody = '<h1>This is Unpaid Invoices of ' + RepFullName + ' customers</h1>' + html_string
 
     mail.Attachments.Add(var_output_Excel_path)
     mail.Send()

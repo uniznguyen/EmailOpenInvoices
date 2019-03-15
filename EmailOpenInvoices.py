@@ -20,9 +20,9 @@ SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
 # SalesReps = [('FL','Frank','frank@stingerchemicals.com')]
 
 
-CCEmails = 'warren@stingerchemicals.com; stu@stingerchemicals.com; fritz@stingerchemicals.com;\
-    leigh@stingerchemicals.com; bridget@stingerchemicals.com; andrea@stingerchemicals.com\
-    kimberly@stingerchemicals.com; yvonne@stingerchemicals.com'
+CCEmails = 'warren@stingerchemicals.com; stu@stingerchemicals.com; fritz@stingerchemicals.com; \
+leigh@stingerchemicals.com; bridget@stingerchemicals.com; \
+andrea@stingerchemicals.com; kimberly@stingerchemicals.com; yvonne@stingerchemicals.com'
 
 cn = pyodbc.connect('DSN=QuickBooks Data;')
 

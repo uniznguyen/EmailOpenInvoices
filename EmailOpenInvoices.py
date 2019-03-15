@@ -68,7 +68,7 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
     BLUE_STYLE = "background-color: DodgerBlue; font-weight: bold; color: white"
     ORANGE_STYLE = "background-color: Orange; font-weight: bold"
     RED_STYLE = "background-color: Red; font-weight: bold; color: white"
-    
+
     def highlight_pastdueinvoice(s):        
         if s.Aging != '' and s.Aging >= 30 and s.Aging < 60:
             return [BLUE_STYLE] * s.size
@@ -131,9 +131,9 @@ for RepInitial, RepFullName, RepEmail in SalesReps:
 #this function is to email the output Excel file to each sales rep
     outlook = win32.Dispatch('outlook.application')
     mail = outlook.CreateItem(0)
-    #mail.To = RepEmail  #change this line to change receipient's emails
-    mail.To = 'accounting@stingerchemicals.com'  #change this line to change receipient's emails
-    #mail.CC = CCEmails
+    mail.To = RepEmail  #change this line to change receipient's emails
+    #mail.To = 'accounting@stingerchemicals.com'  #change this line to change receipient's emails
+    mail.CC = CCEmails
     mail.Subject = RepFullName + ' Open Invoice as of ' + str(datetime.date.today())
     mail.HTMLBody = '<h1>This is Unpaid Invoices of ' + RepFullName + ' customers</h1>' + html_string
 

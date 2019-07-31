@@ -11,10 +11,12 @@ SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
         , ('JST', 'Takkie', 'takkie@stingerchemicals.com; jon@stingerchemicals.com')
         , ('FL','Frank','frank@stingerchemicals.com')
         , ('THF','Tim Floyd','tfloyd@stingerchemicals.com')
-        ,('GR','Greg','greg@stingerchemicals.com')
+        , ('GR','Greg','greg@stingerchemicals.com')
         , ('AV','Alton','alton@stingerchemicals.com'),('AR','Albert','albertr@stingerchemicals.com')
 		, ('LB','Larry Bale','larryb@stingerchemicals.com; noah@stingerchemicals.com')
-        , ('JD','Joey','joeyd@stingerchemicals.com'),('JW','John Weaver','JWeaver@stingerchemicals.com')]
+        , ('JD','Joey','joeyd@stingerchemicals.com'),('JW','John Weaver','JWeaver@stingerchemicals.com')
+        , ('FHS','Fritz Seewald','fritz@stingerchemicals.com')
+        , ('CB','Chris Barboza','chris@stingerchemicals.com')]
 
 
 # SalesReps = [('FL','Frank','frank@stingerchemicals.com')]

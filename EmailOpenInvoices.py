@@ -11,11 +11,11 @@ SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
         , ('JST', 'Takkie', 'takkie@stingerchemicals.com; jon@stingerchemicals.com')
         , ('FL','Frank','frank@stingerchemicals.com')
         , ('THF','Tim Floyd','tfloyd@stingerchemicals.com')
-        , ('GR','Greg','greg@stingerchemicals.com')
-        , ('AV','Alton','alton@stingerchemicals.com'),('AR','Albert','albertr@stingerchemicals.com')
+        , ('JY','Jerry','jerry@stingerchemicals.com'), ('JBG','Jeremy','jeremy@stingerchemicals.com')
+        , ('MR','Marysol','marysol@stingerchemicals.com'), ('ZM','Zach','zac@stingerchemicals.com')
 		, ('LB','Larry Bale','larryb@stingerchemicals.com; noah@stingerchemicals.com')
-        , ('JD','Joey','joeyd@stingerchemicals.com'),('JW','John Weaver','JWeaver@stingerchemicals.com; dan@stingerchemicals.com')
-        , ('FHS','Fritz Seewald','fritz@stingerchemicals.com'),('KH','Kimberly Herrera','kimberly@stingerchemicals.com')
+        , ('JD','Joey','joeyd@stingerchemicals.com')
+        , ('FHS','Fritz Seewald','fritz@stingerchemicals.com'),('DB','Dan Burros','dan@stingerchemicals.com')
         , ('CB','Chris Barboza','chris@stingerchemicals.com')]
 
 
@@ -23,8 +23,8 @@ SalesReps = [('MBM', 'Myrick', 'myrick@stingerchemicals.com')
 
 
 CCEmails = 'warren@stingerchemicals.com; stu@stingerchemicals.com; fritz@stingerchemicals.com; \
-leigh@stingerchemicals.com; bridget@stingerchemicals.com; \
-andrea@stingerchemicals.com; kimberly@stingerchemicals.com; yvonne@stingerchemicals.com; kate@stingerchemicals.com;lillian@stingerchemicals.com'
+bridget@stingerchemicals.com; \
+yvonne@stingerchemicals.com; adriana@stingerchemicals.com;marysol@stingerchemicals.com'
 
 cn = pyodbc.connect('DSN=QuickBooks Data;')
 
